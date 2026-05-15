@@ -1,3 +1,3 @@
 window.SWFTM_CONFIG = {
-  escapePlanApiUrl: "https://api.fidofinancial.ai/escape-plan"
+  escapePlanApiUrl: "https://d2mhoq8tw0jw4q.cloudfront.net/escape-plan"
 };
