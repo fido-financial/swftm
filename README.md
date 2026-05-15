@@ -2,6 +2,8 @@
 
 Static SWFTM site for GitHub Pages. It creates Fido Escape Plan intents directly through the Fido API, then redirects users to Fido signup/login.
 
+GitHub Pages requires this repository to be public unless the organization plan supports Pages for private repositories.
+
 ## Local
 
 ```sh
