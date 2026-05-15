@@ -1,0 +1,218 @@
+/* =============================================================
+   Fido Financial: Colors & Type Tokens
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ---------- Brand color (the orange) ---------- */
+  --brand-500: #FF671A;          /* primary brand orange, sampled from logo */
+  --brand-600: #E85410;          /* hover / pressed */
+  --brand-700: #C0420A;          /* deeper accent */
+  --brand-400: #FF8A4D;          /* lighter accent */
+  --brand-300: #FFB088;          /* tints */
+  --brand-200: #FFD4BC;
+  --brand-100: #FFE9DC;          /* surface tint */
+  --brand-50:  #FFF4EC;          /* faintest wash */
+
+  /* ---------- Cream / paper (warm neutral background) ---------- */
+  --cream-50:  #FBF7F1;          /* page background, like the wordmark crop */
+  --cream-100: #F5EFE5;
+  --cream-200: #ECE3D2;
+  --cream-300: #DDD0B8;
+
+  /* ---------- Ink (warm-shifted blacks) ---------- */
+  --ink-900: #14110E;            /* near-black serif text */
+  --ink-800: #2A2520;
+  --ink-700: #4A433B;
+  --ink-600: #6E6558;
+  --ink-500: #948A7C;            /* secondary text */
+  --ink-400: #B9B0A0;
+  --ink-300: #D7CFC0;            /* hairlines */
+  --ink-200: #E8E1D2;
+  --ink-100: #F2ECE0;
+
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* ---------- Semantic colors ---------- */
+  --success-500: #2E7D5B;        /* trustworthy green, slightly desaturated */
+  --success-100: #DCEDE3;
+  --warning-500: #C8951B;        /* warm gold, sits with the orange */
+  --warning-100: #F8EBC5;
+  --danger-500:  #C9402F;        /* warm red */
+  --danger-100:  #F6DDD8;
+  --info-500:    #2F5D8A;        /* deep blue, used sparingly */
+  --info-100:    #DCE7F2;
+
+  /* ---------- Foreground / background semantic ---------- */
+  --bg:           var(--cream-50);
+  --bg-elevated:  var(--white);
+  --bg-sunken:    var(--cream-100);
+  --bg-inverse:   var(--ink-900);
+
+  --fg:           var(--ink-900);
+  --fg-muted:     var(--ink-600);
+  --fg-subtle:    var(--ink-500);
+  --fg-inverse:   var(--cream-50);
+  --fg-brand:     var(--brand-500);
+  --fg-on-brand:  var(--white);
+
+  --border:        var(--ink-300);
+  --border-subtle: var(--ink-200);
+  --border-strong: var(--ink-700);
+
+  /* ---------- Type families ---------- */
+  --font-display: "Instrument Serif", "Iowan Old Style", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-serif:   "Fraunces", "Source Serif Pro", Georgia, serif;
+  --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---------- Type scale ---------- */
+  --fs-display-xl: 96px;     --lh-display-xl: 0.95;   /* hero serif */
+  --fs-display-lg: 72px;     --lh-display-lg: 1.0;
+  --fs-display-md: 56px;     --lh-display-md: 1.05;
+  --fs-display-sm: 40px;     --lh-display-sm: 1.1;
+
+  --fs-h1: 32px;             --lh-h1: 1.15;
+  --fs-h2: 24px;             --lh-h2: 1.2;
+  --fs-h3: 20px;             --lh-h3: 1.3;
+  --fs-h4: 17px;             --lh-h4: 1.35;
+
+  --fs-body-lg: 18px;        --lh-body-lg: 1.55;
+  --fs-body:    16px;        --lh-body:    1.55;
+  --fs-body-sm: 14px;        --lh-body-sm: 1.5;
+  --fs-caption: 12px;        --lh-caption: 1.4;
+  --fs-overline: 11px;       --lh-overline: 1.3;
+
+  /* ---------- Weights ---------- */
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-black: 900;
+
+  /* ---------- Tracking ---------- */
+  --tracking-tight: -0.02em;     /* used on display serif */
+  --tracking-snug:  -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.02em;
+  --tracking-overline: 0.12em;   /* uppercase eyebrows */
+
+  /* ---------- Radii (relatively soft, slight hex/geometric edge) ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-pill: 999px;
+
+  /* ---------- Spacing (4-pt grid) ---------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+
+  /* ---------- Shadows (warm-tinted, soft) ---------- */
+  --shadow-xs: 0 1px 2px rgba(35, 22, 8, 0.06);
+  --shadow-sm: 0 2px 4px rgba(35, 22, 8, 0.06), 0 1px 2px rgba(35, 22, 8, 0.04);
+  --shadow-md: 0 6px 16px rgba(35, 22, 8, 0.08), 0 2px 4px rgba(35, 22, 8, 0.04);
+  --shadow-lg: 0 16px 32px rgba(35, 22, 8, 0.10), 0 4px 8px rgba(35, 22, 8, 0.06);
+  --shadow-xl: 0 24px 48px rgba(35, 22, 8, 0.14), 0 8px 16px rgba(35, 22, 8, 0.06);
+  --shadow-glow: 0 0 0 4px rgba(255, 103, 26, 0.18);   /* focus ring */
+  --shadow-inset: inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(35,22,8,0.06);
+
+  /* ---------- Motion ---------- */
+  --ease-out:    cubic-bezier(0.2, 0.7, 0.25, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --dur-fast:    120ms;
+  --dur-base:    200ms;
+  --dur-slow:    360ms;
+}
+
+/* =============================================================
+   Semantic element styles: drop-in defaults
+   ============================================================= */
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  background: var(--bg);
+}
+
+/* Display & headings: the Fraunces serif IS the brand voice */
+.display-xl, .display-lg, .display-md, .display-sm,
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 400;          /* Instrument Serif is single-weight, the whimsy comes from forms not weight */
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+.display-xl { font-size: var(--fs-display-xl); line-height: var(--lh-display-xl); }
+.display-lg { font-size: var(--fs-display-lg); line-height: var(--lh-display-lg); }
+.display-md { font-size: var(--fs-display-md); line-height: var(--lh-display-md); }
+.display-sm { font-size: var(--fs-display-sm); line-height: var(--lh-display-sm); }
+
+h1, .h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); font-weight: 400; }
+h2, .h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); font-weight: 400; }
+h3, .h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); font-weight: var(--fw-semibold); font-family: var(--font-sans); letter-spacing: var(--tracking-snug); }
+h4, .h4 { font-size: var(--fs-h4); line-height: var(--lh-h4); font-weight: var(--fw-semibold); font-family: var(--font-sans); }
+
+/* Body */
+p, .body    { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--fg); text-wrap: pretty; }
+.body-lg    { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
+.body-sm    { font-size: var(--fs-body-sm); line-height: var(--lh-body-sm); color: var(--fg-muted); }
+.caption    { font-size: var(--fs-caption); line-height: var(--lh-caption); color: var(--fg-subtle); }
+.overline   {
+  font-size: var(--fs-overline);
+  line-height: var(--lh-overline);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  font-weight: var(--fw-semibold);
+  color: var(--fg-muted);
+}
+
+/* Inline */
+a {
+  color: var(--brand-600);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--brand-700); }
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+code {
+  background: var(--cream-100);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  padding: 0.1em 0.35em;
+}
+
+/* Selection */
+::selection { background: var(--brand-200); color: var(--ink-900); }
+
+/* Focus ring (used everywhere) */
+:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+}

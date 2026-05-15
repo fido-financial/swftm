@@ -1,0 +1,1511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SWFTM: Stop Working For The Man</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="stylesheet" href="colors_and_type.css">
+<script src="config.js"></script>
+<style>
+  :root {
+    --paper: #FBF7F1;
+    --paper-warm: #FFE9DC;
+    --ink: #1F1B16;
+    --ink-soft: #5C5048;
+    --ink-quiet: #8B7E73;
+    --brand: #FF671A;
+    --brand-deep: #C84F0F;
+    --gold: #C8951B;
+    --rule: rgba(31, 27, 22, 0.10);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--brand); color: var(--paper); }
+
+  body { position: relative; }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image: radial-gradient(rgba(74, 67, 59, 0.05) 1px, transparent 1px);
+    background-size: 4px 4px;
+    opacity: 0.5;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+
+  /* Page-wide watercolor backdrop */
+  .page-art {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: clamp(640px, 100vh, 1100px);
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .page-art svg { width: 100%; height: 100%; display: block; }
+  .page-art::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent, var(--paper));
+    pointer-events: none;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  /* NAV */
+  nav.site { position: relative; z-index: 10; padding: 24px 0; }
+  nav.site .row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap;
+  }
+  nav.site .nav-tabs {
+    display: flex; gap: 2px; align-items: center;
+    border-bottom: none; margin: 0; flex: 1 1 auto;
+    justify-content: center;
+  }
+  nav.site .nav-tabs .tab {
+    font-size: 17px; padding: 10px 18px;
+  }
+  nav.site .nav-tabs .tab.active::after {
+    left: 18px; right: 18px; bottom: -4px;
+  }
+  @media (max-width: 1100px) {
+    nav.site .nav-tabs {
+      order: 99; flex: 1 0 100%; margin-top: 6px;
+      overflow-x: auto;
+    }
+    nav.site .nav-tabs .tab { font-size: 16px; padding: 8px 14px; }
+  }
+  .brand-row { display: flex; align-items: center; gap: 12px; }
+  .brand-row img { height: 32px; width: auto; }
+  .brand-row .name { font-size: 22px; letter-spacing: -0.012em; color: var(--ink); white-space: nowrap; }
+  .brand-row .name small {
+    display: block; font-size: 11px; font-style: italic; letter-spacing: 0.18em;
+    color: var(--ink-quiet); text-transform: uppercase; line-height: 1; margin-top: 4px;
+  }
+  .nav-right { display: flex; align-items: center; gap: 24px; }
+  .nav-right a.text {
+    font-size: 16px; font-style: italic; color: var(--ink-soft); text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-right a.text:hover { color: var(--brand); }
+  .nav-cta {
+    font-size: 15px; color: var(--ink); text-decoration: none;
+    padding: 10px 20px; border: 1px solid var(--ink); border-radius: 999px;
+    transition: all 200ms ease; white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--ink); color: var(--paper); }
+
+  /* HERO */
+  .hero { position: relative; padding: 64px 0 100px; z-index: 2; text-align: center; }
+  .hero-art { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .hero-art svg { width: 100%; height: 100%; display: block; }
+
+  .swftm-eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 14px; font-style: italic; color: var(--ink-soft);
+    letter-spacing: 0.22em; margin-bottom: 36px; text-transform: uppercase;
+  }
+  .swftm-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 999px; background: var(--brand);
+    box-shadow: 0 0 0 4px rgba(255, 103, 26, 0.16);
+  }
+  .swftm-eyebrow sup { font-size: 9px; vertical-align: super; margin-left: 1px; letter-spacing: 0; }
+
+  .hero h1 {
+    font-size: clamp(60px, 9vw, 140px);
+    line-height: 0.94; letter-spacing: -0.03em;
+    margin: 0 auto 32px; text-wrap: balance; font-weight: 400;
+    max-width: 1000px;
+  }
+  .hero h1 em { font-style: italic; color: var(--brand); }
+
+  .hero-sub {
+    font-size: clamp(20px, 2.2vw, 26px); font-style: italic; color: var(--ink-soft);
+    max-width: 660px; margin: 0 auto 44px; line-height: 1.5; text-wrap: pretty;
+  }
+
+  /* OFFER BAND */
+  .offer {
+    display: inline-flex; align-items: center; gap: 16px;
+    padding: 14px 22px; border-radius: 999px;
+    background: var(--paper-warm);
+    border: 1px solid rgba(255, 103, 26, 0.25);
+    margin-bottom: 36px;
+    font-size: 16px; color: var(--ink); font-style: italic;
+  }
+  .offer .pill {
+    background: var(--brand); color: var(--paper);
+    padding: 4px 12px; border-radius: 999px;
+    font-style: normal; font-size: 12px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .offer strong { font-weight: 400; color: var(--brand-deep); }
+
+  .cta-row {
+    display: flex; gap: 18px; justify-content: center; align-items: center; flex-wrap: wrap;
+  }
+  .btn {
+    font-family: inherit; font-size: 19px; padding: 16px 30px;
+    border-radius: 999px; border: none; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 220ms cubic-bezier(.2,.7,.2,1);
+    letter-spacing: -0.005em; white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--brand); color: var(--paper);
+    box-shadow: 0 8px 24px rgba(255, 103, 26, 0.28);
+  }
+  .btn-primary:hover {
+    background: var(--brand-deep); transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(255, 103, 26, 0.36);
+  }
+  .btn-ghost { background: transparent; color: var(--ink); font-style: italic; }
+  .btn-ghost:hover { color: var(--brand); }
+  .btn .arrow { transition: transform 220ms ease; }
+  .btn:hover .arrow { transform: translateX(4px); }
+
+  /* TABS */
+  .tabs-section { position: relative; padding: 60px 0 120px; z-index: 2; }
+  .tabs-bar {
+    display: flex; justify-content: center; gap: 6px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 56px; flex-wrap: wrap;
+  }
+  .tab {
+    background: none; border: none; cursor: pointer;
+    font-family: inherit; font-size: 19px; color: var(--ink-quiet);
+    padding: 16px 24px; position: relative;
+    transition: color 200ms ease; font-style: italic;
+    outline: none;
+  }
+  .tab:focus { outline: none; }
+  .tab:focus-visible { outline: none; color: var(--ink); }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--ink); }
+  .tab.active::after {
+    content: ""; position: absolute; left: 16px; right: 16px; bottom: -1px;
+    height: 2px; background: var(--brand);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fade 240ms ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* OFFER PANEL */
+  .panel-offer {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center;
+  }
+  .offer-copy h2 {
+    font-size: clamp(36px, 4.4vw, 60px); line-height: 1.04; margin: 0 0 24px;
+    font-weight: 400; letter-spacing: -0.022em; text-wrap: balance;
+  }
+  .offer-copy h2 em { font-style: italic; color: var(--brand); }
+  .offer-copy p {
+    font-size: 19px; color: var(--ink-soft); line-height: 1.6; margin: 0 0 18px; max-width: 480px;
+  }
+  .offer-list { list-style: none; padding: 0; margin: 28px 0 36px; }
+  .offer-list li {
+    padding: 12px 0; padding-left: 32px; position: relative;
+    font-size: 17px; color: var(--ink); border-top: 1px solid var(--rule);
+  }
+  .offer-list li:first-child { border-top: none; }
+  .offer-list li::before {
+    content: "→"; position: absolute; left: 0; color: var(--brand); font-style: italic;
+  }
+  .offer-card {
+    background: var(--paper-warm); border: 1px solid rgba(255, 103, 26, 0.2);
+    border-radius: 12px; padding: 40px;
+    box-shadow: 0 24px 48px -24px rgba(31, 27, 22, 0.18);
+  }
+  .offer-card .price-row { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
+  .offer-card .price {
+    font-size: 64px; line-height: 1; color: var(--ink); letter-spacing: -0.03em;
+  }
+  .offer-card .price-strike {
+    font-size: 22px; color: var(--ink-quiet); text-decoration: line-through; font-style: italic;
+  }
+  .offer-card .cycle { font-size: 17px; font-style: italic; color: var(--ink-soft); margin-bottom: 24px; }
+  .offer-card .free-badge {
+    display: inline-block; background: var(--brand); color: var(--paper);
+    padding: 6px 14px; border-radius: 999px; font-size: 12px;
+    letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .offer-card h3 {
+    font-size: 28px; margin: 0 0 16px; font-weight: 400; letter-spacing: -0.012em; line-height: 1.15;
+  }
+  .offer-card h3 em { font-style: italic; color: var(--brand); }
+  .offer-card .includes { list-style: none; padding: 0; margin: 0 0 28px; }
+  .offer-card .includes li {
+    padding: 8px 0; font-size: 16px; color: var(--ink-soft);
+    border-bottom: 1px dashed var(--rule);
+  }
+  .offer-card .includes li:last-child { border-bottom: none; }
+  .offer-card .includes li strong { color: var(--ink); font-weight: 400; }
+  .offer-card .btn { width: 100%; justify-content: center; }
+  .offer-card .fineprint {
+    font-size: 13px; font-style: italic; color: var(--ink-quiet);
+    margin-top: 16px; text-align: center;
+  }
+
+  /* PLATFORM PANEL */
+  .panel-platform .panel-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .panel-head h2 {
+    font-size: clamp(36px, 4.4vw, 56px); line-height: 1.04; margin: 0 0 20px;
+    font-weight: 400; letter-spacing: -0.022em;
+  }
+  .panel-head h2 em { font-style: italic; color: var(--brand); }
+  .panel-head p { font-size: 19px; color: var(--ink-soft); line-height: 1.6; margin: 0; }
+  .three-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .three-card {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 32px 28px;
+    box-shadow: 0 24px 48px -28px rgba(31, 27, 22, 0.18);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
+  .three-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 28px 56px -28px rgba(31, 27, 22, 0.22);
+  }
+  .three-card .num {
+    font-style: italic; font-size: 13px; color: var(--brand);
+    letter-spacing: 0.22em; margin-bottom: 16px;
+  }
+  .three-card h3 {
+    font-size: 28px; line-height: 1.1; margin: 0 0 12px;
+    font-weight: 400; letter-spacing: -0.012em;
+  }
+  .three-card h3 em { font-style: italic; color: var(--brand); }
+  .three-card p { font-size: 17px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
+  .platform-cta { text-align: center; margin-top: 64px; }
+
+  /* RESIGNATION LETTER PANEL */
+  .panel-quit { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: start; }
+  .quit-copy h2 {
+    font-size: clamp(36px, 4.4vw, 56px); line-height: 1.04; margin: 0 0 24px;
+    font-weight: 400; letter-spacing: -0.022em;
+  }
+  .quit-copy h2 em { font-style: italic; color: var(--brand); }
+  .quit-copy p { font-size: 18px; color: var(--ink-soft); line-height: 1.6; margin: 0 0 18px; max-width: 440px; }
+  .gen-card {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden;
+    box-shadow: 0 24px 48px -24px rgba(31, 27, 22, 0.18);
+  }
+  .gen-card-h {
+    background: rgba(31, 27, 22, 0.04); padding: 12px 16px;
+    border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 12px;
+  }
+  .gen-card-h .dots { display: flex; gap: 6px; }
+  .gen-card-h .dots span { width: 10px; height: 10px; border-radius: 999px; background: rgba(31, 27, 22, 0.12); }
+  .gen-card-h .url { font-size: 13px; font-style: italic; color: var(--ink-quiet); flex: 1; text-align: center; }
+  .gen-body { padding: 28px 28px 24px; }
+  .gen-field { margin-bottom: 16px; }
+  .gen-field label {
+    display: block; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-quiet); font-style: italic; margin-bottom: 6px;
+  }
+  .gen-field input {
+    width: 100%; font-family: inherit; font-size: 18px; padding: 11px 14px;
+    background: transparent; border: 1px solid var(--rule); border-radius: 4px;
+    color: var(--ink); outline: none; transition: border-color 200ms ease;
+  }
+  .gen-field input:focus { border-color: var(--brand); }
+  .gen-submit {
+    width: 100%; margin-top: 6px; background: var(--ink); color: var(--paper);
+    font-family: inherit; font-size: 16px; padding: 13px 20px; border: none;
+    border-radius: 999px; cursor: pointer; transition: background 200ms ease;
+  }
+  .gen-submit:hover { background: var(--brand); }
+  .gen-output {
+    display: none; margin-top: 22px; padding: 22px;
+    background: rgba(31, 27, 22, 0.025); border-left: 2px solid var(--brand);
+    font-size: 15px; line-height: 1.7; color: var(--ink); font-style: italic;
+    white-space: pre-wrap; border-radius: 0 4px 4px 0;
+  }
+  .gen-output.show { display: block; }
+  .gen-cta-line {
+    display: none; margin-top: 16px; font-size: 14px; font-style: italic;
+    color: var(--ink-soft); text-align: center;
+  }
+  .gen-cta-line.show { display: block; }
+  .gen-cta-line strong { font-weight: 400; color: var(--brand); }
+
+  /* ESCAPE PLAN PANEL */
+  .panel-plan .panel-head { text-align: center; max-width: 720px; margin: 0 auto 48px; }
+  .plan-form {
+    background: var(--paper-warm); border: 1px solid rgba(255, 103, 26, 0.18);
+    border-radius: 12px; padding: 36px;
+    box-shadow: 0 24px 48px -28px rgba(31, 27, 22, 0.18);
+    max-width: 880px; margin: 0 auto;
+  }
+  .plan-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 28px;
+    margin-bottom: 28px;
+  }
+  .plan-field { display: flex; flex-direction: column; }
+  .plan-field-wide { grid-column: 1 / -1; }
+  .plan-field label {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-quiet); font-style: italic; margin-bottom: 8px;
+  }
+  .plan-field input, .plan-field select, .plan-field textarea {
+    font-family: inherit; font-size: 18px; padding: 12px 14px;
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 6px;
+    color: var(--ink); outline: none; transition: border-color 200ms ease;
+  }
+  .plan-field textarea { resize: vertical; min-height: 96px; line-height: 1.45; }
+  .plan-field input:focus, .plan-field select:focus, .plan-field textarea:focus { border-color: var(--brand); }
+  .plan-field select { appearance: none; -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+                      linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%;
+    background-size: 5px 5px; background-repeat: no-repeat; padding-right: 36px;
+  }
+  .plan-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .plan-note {
+    margin: -8px 0 22px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    font-style: italic;
+  }
+  .plan-status, .plan-error {
+    background: var(--paper-warm);
+    border: 1px solid rgba(255, 103, 26, 0.22);
+    border-radius: 12px;
+    padding: 28px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .plan-error {
+    background: rgba(201, 64, 47, 0.08);
+    border-color: rgba(201, 64, 47, 0.22);
+    color: #8f2e22;
+  }
+
+  .plan-output { max-width: 880px; margin: 56px auto 0; }
+  .plan-output[hidden] { display: none; }
+  .plan-loading {
+    text-align: center; padding: 56px 24px;
+    font-style: italic; font-size: 18px; color: var(--ink-soft);
+    border: 1px dashed var(--rule); border-radius: 8px;
+    background: var(--paper); animation: fade 240ms ease;
+  }
+  .plan-loading .pulse {
+    display: inline-flex; gap: 6px; margin-left: 12px; vertical-align: middle;
+  }
+  .plan-loading .pulse span {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--brand);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .plan-loading .pulse span:nth-child(2) { animation-delay: 0.2s; }
+  .plan-loading .pulse span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
+  .plan-source {
+    text-align: right; font-size: 12px; font-style: italic; color: var(--ink-quiet);
+    letter-spacing: 0.14em; text-transform: uppercase; margin: 16px 0 -8px;
+  }
+  .plan-doc {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 8px;
+    padding: 48px; box-shadow: 0 24px 48px -28px rgba(31, 27, 22, 0.18);
+    animation: fade 280ms ease;
+  }
+  .plan-masthead {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 2px solid var(--ink); padding-bottom: 16px; margin-bottom: 28px;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .plan-masthead .title {
+    font-size: clamp(28px, 4vw, 42px); line-height: 1.05; letter-spacing: -0.02em;
+    margin: 0; font-weight: 400;
+  }
+  .plan-masthead .title em { font-style: italic; color: var(--brand); }
+  .plan-masthead .meta {
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-quiet); font-style: italic; text-align: right; line-height: 1.6;
+  }
+  .plan-section {
+    border-top: 1px solid var(--rule); padding: 24px 0; display: grid;
+    grid-template-columns: 200px 1fr; gap: 24px;
+  }
+  .plan-section:first-of-type { border-top: none; padding-top: 0; }
+  .plan-section h3 {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--brand); margin: 0; font-style: italic; font-weight: 400; line-height: 1.5;
+  }
+  .plan-section .body { font-size: 17px; color: var(--ink); line-height: 1.6; }
+  .plan-section .body p { margin: 0 0 12px; }
+  .plan-section .body p:last-child { margin-bottom: 0; }
+  .plan-section .body strong { font-weight: 400; color: var(--brand-deep); }
+  .plan-section ul { list-style: none; padding: 0; margin: 0; }
+  .plan-section ul li {
+    padding: 8px 0 8px 28px; position: relative;
+    font-size: 17px; line-height: 1.5; border-bottom: 1px dashed var(--rule);
+  }
+  .plan-section ul li:last-child { border-bottom: none; }
+  .plan-section ul li::before {
+    content: "→"; position: absolute; left: 0; color: var(--brand); font-style: italic;
+  }
+  .plan-stages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .plan-stage {
+    border: 1px solid var(--rule); border-radius: 6px; padding: 20px;
+    background: rgba(255, 233, 220, 0.35);
+  }
+  .plan-stage .stage-head {
+    font-style: italic; font-size: 12px; color: var(--brand);
+    letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .plan-stage h4 {
+    font-size: 19px; margin: 0 0 10px; font-weight: 400; letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .plan-stage p { font-size: 15px; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+
+  .plan-weeks {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 32px;
+  }
+  .plan-weeks .week {
+    display: grid; grid-template-columns: 70px 1fr; gap: 12px;
+    padding: 10px 0; border-bottom: 1px dashed var(--rule); font-size: 15px;
+  }
+  .plan-weeks .week .label {
+    font-style: italic; color: var(--brand); letter-spacing: 0.06em;
+  }
+  .plan-weeks .week .what { color: var(--ink); line-height: 1.5; }
+
+  .plan-gates { display: flex; flex-direction: column; gap: 12px; }
+  .plan-gate {
+    display: grid; grid-template-columns: 32px 1fr; gap: 14px;
+    padding: 14px 16px; background: rgba(255, 103, 26, 0.06);
+    border: 1px solid rgba(255, 103, 26, 0.18); border-radius: 6px;
+  }
+  .plan-gate .num {
+    font-style: italic; font-size: 22px; color: var(--brand); line-height: 1;
+  }
+  .plan-gate .text { font-size: 16px; line-height: 1.5; color: var(--ink); }
+  .plan-gate .text strong { font-weight: 400; color: var(--brand-deep); }
+
+  .plan-footer {
+    margin-top: 32px; padding-top: 24px; border-top: 2px solid var(--ink);
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; align-items: center;
+  }
+  .plan-footer .toolset { display: flex; gap: 10px; flex-wrap: wrap; }
+  .plan-tool {
+    font-family: inherit; font-size: 14px; font-style: italic;
+    background: transparent; color: var(--ink-soft); border: 1px solid var(--rule);
+    padding: 8px 16px; border-radius: 999px; cursor: pointer;
+    transition: all 200ms ease; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .plan-tool:hover { border-color: var(--brand); color: var(--brand); }
+  .plan-tool.copied { color: var(--brand); border-color: var(--brand); }
+  .plan-footer .next-step {
+    font-size: 14px; font-style: italic; color: var(--ink-soft);
+  }
+  .plan-footer .next-step a { color: var(--brand); text-decoration: none; }
+  .plan-footer .next-step a:hover { color: var(--brand-deep); }
+
+  /* FOOTER */
+  footer { padding: 48px 0 56px; border-top: 1px solid var(--rule); position: relative; z-index: 2; }
+  .foot-row {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px; font-size: 14px; font-style: italic; color: var(--ink-quiet);
+  }
+  .foot-row a { color: var(--ink-soft); text-decoration: none; margin-left: 24px; }
+  .foot-row a:first-of-type { margin-left: 0; }
+  .foot-row a:hover { color: var(--brand); }
+
+  /* OFFER HERO (inside the offer tab) */
+  .offer-hero-block {
+    position: relative; text-align: center;
+    padding: 32px 0 80px; margin-bottom: 24px;
+  }
+  .offer-hero-block > div:last-child { position: relative; z-index: 1; }
+
+  .swftm-headline {
+    font-size: clamp(56px, 8vw, 120px);
+    line-height: 0.94; letter-spacing: -0.03em;
+    margin: 0 auto 24px; max-width: 1000px;
+    font-weight: 400; text-wrap: balance;
+  }
+  .swftm-headline em { font-style: italic; color: var(--brand); }
+
+  @media (max-width: 880px) {
+    .panel-offer, .panel-quit { grid-template-columns: 1fr; gap: 40px; }
+    .three-grid { grid-template-columns: 1fr; gap: 32px; }
+    .nav-right a.text { display: none; }
+    .foot-row { flex-direction: column; align-items: flex-start; }
+    .foot-row a { margin-left: 0; margin-right: 24px; }
+    .plan-section { grid-template-columns: 1fr; gap: 12px; }
+    .plan-stages { grid-template-columns: 1fr; }
+    .plan-weeks { grid-template-columns: 1fr; gap: 0; }
+    .plan-doc { padding: 32px 28px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .container { padding: 0 20px; }
+
+    /* Nav */
+    nav.site { padding: 18px 0; }
+    .brand-row { gap: 10px; }
+    .brand-row img { height: 26px; }
+    .brand-row .name { font-size: 17px; }
+    .brand-row .name small { font-size: 9px; letter-spacing: 0.14em; margin-top: 3px; }
+    .nav-right { gap: 10px; }
+    .nav-cta { font-size: 13px; padding: 8px 14px; }
+
+    /* Tabs section */
+    .tabs-section { padding: 12px 0 56px !important; }
+    .tabs-bar { gap: 0; margin-bottom: 28px; }
+    .tab { font-size: 15px; padding: 12px 12px; }
+    .tab.active::after { left: 12px; right: 12px; }
+
+    /* Offer hero */
+    .offer-hero-block { padding: 16px 0 36px; margin-bottom: 12px; }
+    .page-art { height: clamp(520px, 80vh, 760px); }
+    .swftm-eyebrow { font-size: 11px; letter-spacing: 0.16em; margin-bottom: 18px; gap: 10px; }
+    .swftm-headline { font-size: clamp(42px, 11.5vw, 64px); line-height: 0.96; margin-bottom: 18px; }
+    .hero-sub { font-size: 17px; margin-bottom: 26px !important; line-height: 1.45; }
+
+    /* CTA row stacks full-width */
+    .cta-row { flex-direction: column; align-items: stretch; gap: 12px; max-width: 360px; margin: 0 auto; }
+    .cta-row .btn { width: 100%; justify-content: center; }
+    .btn { font-size: 17px; padding: 14px 22px; }
+
+    /* Offer panel */
+    .panel-offer { gap: 28px; }
+    .offer-copy h2 { font-size: clamp(30px, 8vw, 42px); margin-bottom: 18px; }
+    .offer-copy p { font-size: 17px; }
+    .offer-list { margin: 22px 0 28px; }
+    .offer-list li { font-size: 16px; padding-left: 28px; }
+
+    .offer-card { padding: 28px 22px; }
+    .offer-card .price { font-size: 48px; }
+    .offer-card .price-strike { font-size: 18px; }
+    .offer-card h3 { font-size: 22px; }
+    .offer-card .includes li { font-size: 15px; }
+
+    /* Platform panel */
+    .panel-platform .panel-head { margin-bottom: 36px; }
+    .panel-head h2 { font-size: clamp(30px, 8vw, 42px); }
+    .panel-head p { font-size: 17px; }
+    .three-grid { gap: 28px; }
+    .three-card h3 { font-size: 24px; }
+    .three-card p { font-size: 16px; }
+    .platform-cta { margin-top: 40px; }
+
+    /* Resignation panel */
+    .quit-copy h2 { font-size: clamp(30px, 8vw, 42px); }
+    .quit-copy p { font-size: 16px; }
+    .gen-body { padding: 22px 18px 20px; }
+    .gen-field input { font-size: 16px; }
+    .gen-card-h .url { font-size: 12px; }
+    .gen-output { padding: 18px; font-size: 14px; }
+
+    /* Escape plan */
+    .plan-grid { grid-template-columns: 1fr; gap: 18px; }
+    .plan-form { padding: 24px 22px; border-radius: 10px; }
+    .plan-field input, .plan-field select, .plan-field textarea { font-size: 16px; }
+    .plan-actions { flex-direction: column; align-items: stretch; }
+    .plan-actions .btn { width: 100%; justify-content: center; }
+    .plan-doc { padding: 26px 20px; }
+    .plan-masthead { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .plan-masthead .meta { text-align: left; }
+    .plan-section h3 { font-size: 12px; }
+    .plan-section .body, .plan-section ul li { font-size: 16px; }
+    .plan-stage h4 { font-size: 18px; }
+    .plan-weeks .week { font-size: 14px; grid-template-columns: 60px 1fr; }
+    .plan-footer { flex-direction: column; align-items: flex-start; }
+
+    /* Footer */
+    footer { padding: 32px 0 36px; }
+    .foot-row { font-size: 13px; }
+    .foot-row a { margin-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="wc" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="3"/>
+      <feDisplacementMap in="SourceGraphic" scale="18"/>
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+    <filter id="wc-soft" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="22"/>
+      <feGaussianBlur stdDeviation="1.4"/>
+    </filter>
+    <radialGradient id="g-sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFB088" stop-opacity="0.85"/>
+      <stop offset="55%" stop-color="#FF8A4D" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FF671A" stop-opacity="0.22"/>
+    </radialGradient>
+    <linearGradient id="g-r1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF671A" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#FF671A" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="g-r2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8951B" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#C8951B" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="g-r3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2F5D8A" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#2F5D8A" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- PAGE BACKDROP ART -->
+<div class="page-art" aria-hidden="true">
+  <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+    <ellipse cx="1180" cy="220" rx="640" ry="340" fill="#FFE9DC" opacity="0.85" filter="url(#wc-soft)"/>
+    <circle cx="1160" cy="300" r="240" fill="url(#g-sun)" filter="url(#wc)"/>
+    <circle cx="1160" cy="300" r="120" fill="#FFB088" opacity="0.55" filter="url(#wc)"/>
+    <path d="M 0 600 Q 280 540 540 570 T 1080 560 T 1600 580 L 1600 900 L 0 900 Z"
+          fill="url(#g-r3)" filter="url(#wc-soft)"/>
+    <path d="M 0 680 Q 320 640 620 665 T 1180 665 T 1600 685 L 1600 900 L 0 900 Z"
+          fill="url(#g-r2)" filter="url(#wc)"/>
+    <path d="M 0 760 Q 360 730 720 750 T 1280 750 T 1600 770 L 1600 900 L 0 900 Z"
+          fill="url(#g-r1)" filter="url(#wc)"/>
+  </svg>
+</div>
+
+<!-- NAV -->
+<nav class="site">
+  <div class="container row">
+    <div class="brand-row">
+      <img src="assets/logo-mark.png" alt="">
+      <span class="name">Fido Financial<small>SWFTM<sup>™</sup> Campaign</small></span>
+    </div>
+    <div class="tabs-bar nav-tabs" role="tablist">
+      <button class="tab active" data-tab="offer" role="tab">The offer</button>
+      <button class="tab" data-tab="platform" role="tab">The platform</button>
+      <button class="tab" data-tab="plan" role="tab">Escape plan</button>
+      <button class="tab" data-tab="quit" role="tab">Resignation letter</button>
+    </div>
+    <div class="nav-right">
+      <a class="text" href="https://fidofinancial.ai" target="_blank" rel="noopener">fidofinancial.ai ↗</a>
+      <a href="#claim" class="nav-cta">Claim free LLC</a>
+    </div>
+  </div>
+</nav>
+
+<!-- TABS (top of page) -->
+<section class="tabs-section" id="tabs" style="padding: 8px 0 100px;">
+  <div class="container">
+
+    <!-- OFFER TAB -->
+    <div class="tab-panel active" id="panel-offer" role="tabpanel">
+      <!-- HERO inside offer tab -->
+      <div class="offer-hero-block">
+        <div style="position:relative; z-index:1;">
+          <div class="swftm-eyebrow" style="margin-bottom:24px;">
+            <span class="dot"></span>
+            <span>SWFTM<sup>™</sup> &nbsp;·&nbsp; The movement</span>
+          </div>
+          <h1 class="swftm-headline">
+            Stop working <em>for the man.</em>
+          </h1>
+          <p class="hero-sub" style="margin:0 auto 36px;">
+            Sign up for Fido and we'll incorporate your business, <em style="color:var(--brand);font-style:italic;">free</em>.
+          </p>
+          <div class="cta-row">
+            <a href="https://fidofinancial.ai/login?mode=signup" class="btn btn-primary" target="_blank" rel="noopener">
+              Claim free LLC <span class="arrow">→</span>
+            </a>
+            <a href="#claim" class="btn btn-ghost">
+              See the offer <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-offer">
+        <div class="offer-copy" id="claim">
+          <h2>One year of Fido. <em>One free company.</em></h2>
+          <p>The hardest part of starting a business isn't the idea. It's the paperwork, the entity, the EIN, the bank, the books. So we're giving the paperwork away.</p>
+          <ul class="offer-list">
+            <li>Sign up for an annual Fido membership</li>
+            <li>Our AI agent files your LLC, EIN, and operating agreement</li>
+            <li>You keep working with Fido all year: start, fund, grow</li>
+            <li>The state filing fee is on us</li>
+          </ul>
+          <a href="https://fidofinancial.ai/login?mode=signup" class="btn btn-primary" target="_blank" rel="noopener">
+            Start with Fido <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <div class="offer-card">
+          <div class="free-badge">SWFTM<sup>™</sup> launch offer</div>
+          <h3>Fido <em>Annual</em></h3>
+          <div class="price-row">
+            <span class="price">$20</span>
+            <span class="cycle">/ month, billed annually ($240/yr)</span>
+          </div>
+          <div class="price-row" style="margin-top:-4px;">
+            <span class="price-strike">$25 / mo ($300/yr)</span>
+            <span style="font-size:15px;font-style:italic;color:var(--brand-deep);">SWFTM<sup>™</sup> launch: 20% off</span>
+          </div>
+          <div style="font-size:14px;font-style:italic;color:var(--ink-soft);margin-top:8px;">
+            + LLC filing ($300 value), <span style="color:var(--brand-deep);">included free</span>
+          </div>
+          <ul class="includes">
+            <li><strong>LLC formation:</strong> filed in your state, EIN issued, operating agreement drafted</li>
+            <li><strong>AI Personal CFO:</strong> live books, runway, tax-ready ledger</li>
+            <li><strong>Funding agent:</strong> one application, 100 lenders</li>
+            <li><strong>Growth agent:</strong> campaigns, content, analytics</li>
+            <li><strong>Compliance:</strong> every state and IRS filing handled on time</li>
+          </ul>
+          <a href="https://fidofinancial.ai/login?mode=signup" class="btn btn-primary" target="_blank" rel="noopener">
+            Claim the offer <span class="arrow">→</span>
+          </a>
+          <div class="fineprint">No promo code needed. Cancel before year-end if you change your mind.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLATFORM TAB -->
+    <div class="tab-panel" id="panel-platform" role="tabpanel">
+      <div class="panel-platform">
+        <div class="panel-head">
+          <h2>Start what you've always meant to build, <em>with a team at your side.</em></h2>
+          <p>Fido puts an entire team of intelligent AI agents on your side, ready from day one to help you start, fund, and grow the company only you can build.</p>
+        </div>
+        <div class="three-grid">
+          <div class="three-card">
+            <div class="num">01 · START</div>
+            <h3>File your <em>company.</em></h3>
+            <p>LLC, EIN, operating agreement. Operational entity in under ten minutes. The lawyer, the legal docs, all of it. (Free with annual sign-up.)</p>
+          </div>
+          <div class="three-card">
+            <div class="num">02 · FUND</div>
+            <h3>Access your <em>capital.</em></h3>
+            <p>One application, routed across 100 lenders. Fido surfaces the best fit and prepares the package. You decide. You sign.</p>
+          </div>
+          <div class="three-card">
+            <div class="num">03 · GROW</div>
+            <h3>Run the <em>business.</em></h3>
+            <p>Live P&amp;L, runway, growth campaigns, compliance, bookkeeping: a CFO, CMO, and chief of staff working around the clock so you succeed.</p>
+          </div>
+        </div>
+        <div class="platform-cta">
+          <a href="https://fidofinancial.ai/login?mode=signup" class="btn btn-primary" target="_blank" rel="noopener">
+            Start with Fido <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESCAPE PLAN TAB -->
+    <div class="tab-panel" id="panel-plan" role="tabpanel">
+      <div class="panel-plan">
+        <div class="panel-head">
+          <h2>The <em>escape plan</em>, written for your numbers.</h2>
+          <p>Tell us the idea, the runway, the hours. Fido will save the intake, validate your email with a full account, and generate the PDF after your business is created.</p>
+        </div>
+
+        <form class="plan-form" id="planForm" novalidate>
+          <div class="plan-grid">
+            <div class="plan-field">
+              <label for="planFullName">Your name</label>
+              <input id="planFullName" name="fullName" type="text" placeholder="Jane Smith" required>
+            </div>
+            <div class="plan-field">
+              <label for="planEmail">Email</label>
+              <input id="planEmail" name="email" type="email" placeholder="you@example.com" required>
+            </div>
+            <div class="plan-field">
+              <label for="planBusinessName">Business name (optional)</label>
+              <input id="planBusinessName" name="businessName" type="text" placeholder="Northstar Studio">
+            </div>
+            <div class="plan-field">
+              <label for="planIndustry">Industry (optional)</label>
+              <input id="planIndustry" name="industry" type="text" placeholder="Consulting, software, ecommerce">
+            </div>
+            <div class="plan-field plan-field-wide">
+              <label for="planIdea">The idea</label>
+              <input id="planIdea" name="idea" type="text" placeholder="A subscription newsletter for indie game devs" required>
+            </div>
+            <div class="plan-field">
+              <label for="planSituation">Current situation</label>
+              <select id="planSituation" name="situation">
+                <option value="full_time">Full-time employee</option>
+                <option value="side_project">Side project / freelance</option>
+                <option value="between_roles">Between roles</option>
+                <option value="already_started">Already started something</option>
+              </select>
+            </div>
+            <div class="plan-field">
+              <label for="planLocation">Location</label>
+              <input id="planLocation" name="location" type="text" placeholder="Austin, TX" required>
+            </div>
+            <div class="plan-field">
+              <label for="planIncome">Target monthly income ($)</label>
+              <input id="planIncome" name="income" type="number" inputmode="numeric" min="500" placeholder="6000" required>
+            </div>
+            <div class="plan-field">
+              <label for="planHours">Hours per week available</label>
+              <input id="planHours" name="hours" type="number" inputmode="numeric" min="1" max="80" placeholder="12" required>
+            </div>
+            <div class="plan-field">
+              <label for="planExpenses">Monthly personal expenses (optional)</label>
+              <input id="planExpenses" name="expenses" type="number" inputmode="numeric" min="0" placeholder="4200">
+            </div>
+            <div class="plan-field">
+              <label for="planRunway">Savings runway in months (optional)</label>
+              <input id="planRunway" name="runway" type="number" inputmode="decimal" min="0" step="0.5" placeholder="3">
+            </div>
+            <div class="plan-field">
+              <label for="planLaunchDate">Target launch date (optional)</label>
+              <input id="planLaunchDate" name="launchDate" type="text" placeholder="September 2026">
+            </div>
+            <div class="plan-field plan-field-wide">
+              <label for="planCompetitor">Website or competitor (optional)</label>
+              <input id="planCompetitor" name="competitor" type="text" placeholder="substack.com or a name you admire">
+            </div>
+            <div class="plan-field plan-field-wide">
+              <label for="planAudience">Audience access (optional)</label>
+              <textarea id="planAudience" name="audience" rows="3" placeholder="Who can you reach now? Email list, local network, LinkedIn audience, former clients"></textarea>
+            </div>
+            <div class="plan-field plan-field-wide">
+              <label for="planConstraint">Biggest constraint (optional)</label>
+              <textarea id="planConstraint" name="constraint" rows="3" placeholder="Time, cash, confidence, licenses, childcare, sales, technical build"></textarea>
+            </div>
+          </div>
+          <p class="plan-note">Your plan is generated inside Fido after signup, email validation, and business setup. No LLM call runs on this page.</p>
+          <div class="plan-actions">
+            <button type="submit" class="btn btn-primary">
+              Save intake and continue <span class="arrow">→</span>
+            </button>
+            <button type="button" class="btn btn-ghost" id="planExample">See an example</button>
+          </div>
+        </form>
+
+        <div class="plan-output" id="planOutput" hidden></div>
+      </div>
+    </div>
+
+    <!-- RESIGNATION LETTER TAB -->
+    <div class="tab-panel" id="panel-quit" role="tabpanel">
+      <div class="panel-quit">
+        <div class="quit-copy">
+          <h2>The two-week notice, <em>written for you.</em></h2>
+          <p>Polished, professional, in your voice. Free, no login. Send it. Don't send it. The point is the moment after, when Fido files your LLC and the next chapter actually begins.</p>
+          <p style="font-style:italic;color:var(--brand-deep);">Tip: when you're ready, claim the free-LLC offer in the next tab.</p>
+        </div>
+        <div class="gen-card">
+          <div class="gen-card-h">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="url">swftm.com/quit</div>
+          </div>
+          <div class="gen-body">
+            <div class="gen-field">
+              <label for="yourName">Your name</label>
+              <input id="yourName" type="text" placeholder="Jane Smith">
+            </div>
+            <div class="gen-field">
+              <label for="jobTitle">Job title</label>
+              <input id="jobTitle" type="text" placeholder="Senior Designer">
+            </div>
+            <div class="gen-field">
+              <label for="years">Years served</label>
+              <input id="years" type="text" placeholder="4">
+            </div>
+            <div class="gen-field">
+              <label for="building">What you're building next</label>
+              <input id="building" type="text" placeholder="A studio for indie game devs">
+            </div>
+            <button class="gen-submit" id="genBtn">Generate my letter →</button>
+            <div class="gen-output" id="genOut"></div>
+            <div class="gen-cta-line" id="genCta">And when you're ready, <strong>let Fido file your LLC, free →</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container foot-row">
+    <span>© 2026 Fido Financial, Inc. &nbsp;·&nbsp; SWFTM<sup>™</sup> is a campaign of Fido Financial.</span>
+    <div>
+      <a href="https://fidofinancial.ai" target="_blank" rel="noopener">fidofinancial.ai</a>
+      <a href="mailto:hello@fidofinancial.ai">Contact</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Tabs
+  function activateTab(id) {
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".tab-panel");
+    tabs.forEach(x => x.classList.toggle("active", x.dataset.tab === id));
+    panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + id));
+  }
+  (function () {
+    document.querySelectorAll(".tab").forEach(t =>
+      t.addEventListener("click", () => activateTab(t.dataset.tab)));
+  })();
+
+  // Resignation Letter Generator
+  (function () {
+    const btn = document.getElementById("genBtn");
+    if (!btn) return;
+    const out = document.getElementById("genOut");
+    const cta = document.getElementById("genCta");
+    function pickTarget(title) {
+      const t = (title || "").toLowerCase();
+      if (t.includes("design")) return "Design Lead";
+      if (t.includes("eng") || t.includes("dev")) return "Engineering Manager";
+      if (t.includes("market")) return "Marketing Director";
+      if (t.includes("manag")) return "VP";
+      return "Manager";
+    }
+    function letter(name, jt, yr, build) {
+      const signer = name || "Your name";
+      const role = jt || "Senior Designer";
+      const years = yr || "4";
+      const next = build || "a studio for indie game devs";
+      const target = pickTarget(role);
+      return "Dear " + target + ",\n\nAfter " + years + " year" + (years === "1" ? "" : "s") + " as a " + role + ", I'm writing to give my two weeks' notice. My last day will be two Fridays from now.\n\nThis isn't a leap. It's a step I've been preparing for, quietly, for longer than either of us probably knows. I'm leaving to build " + next + ", full-time. The paperwork is filed. The plan is live.\n\nI'm grateful for the work. I'm grateful for the team. I'll spend the next two weeks closing out my projects with the same care I brought to opening them. After that, I'm working for myself.\n\nIf you'd ever like to be a customer, you know where to find me.\n\nWith respect,\n" + signer;
+    }
+    btn.addEventListener("click", function () {
+      const nm = document.getElementById("yourName").value.trim();
+      const jt = document.getElementById("jobTitle").value.trim();
+      const yr = document.getElementById("years").value.trim();
+      const bd = document.getElementById("building").value.trim();
+      out.textContent = letter(nm, jt, yr, bd);
+      out.classList.add("show");
+      cta.classList.add("show");
+    });
+  })();
+
+  // Escape Plan Generator
+  (function () {
+    const form = document.getElementById("planForm");
+    if (!form) return;
+    const output = document.getElementById("planOutput");
+    const exampleBtn = document.getElementById("planExample");
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+    function fmtMoney(n) {
+      return "$" + Math.round(n).toLocaleString();
+    }
+    function categorize(idea) {
+      const t = (idea || "").toLowerCase();
+      const has = (re) => re.test(t);
+      if (has(/(newsletter|substack|blog|podcast|youtube|video|writer|content|media|publication)/)) return "content";
+      if (has(/(saas|app\b|software|platform|api|tool|automation|extension|plugin|dashboard)/)) return "saas";
+      if (has(/(course|cohort|workshop|training|teach|tutor|coach|coaching|bootcamp|class)/)) return "education";
+      if (has(/(shop|store|ecommerce|product|brand|merch|jewelry|apparel|skincare|d2c|candle|maker)/)) return "product";
+      if (has(/(restaurant|cafe|food truck|salon|gym|studio|brick|local|cleaning|landscap|plumb)/)) return "local";
+      if (has(/(agency|consult|design|develop|engineer|copywrit|marketing|seo|freelance|account|legal|cfo|advisor)/)) return "service";
+      return "service";
+    }
+
+    function pricingFor(cat, target) {
+      switch (cat) {
+        case "content": {
+          const price = Math.max(8, Math.round(target / 250));
+          const units = Math.ceil(target / price);
+          return { line: fmtMoney(price) + "/mo × " + units + " paid subscribers" };
+        }
+        case "saas": {
+          const price = Math.max(29, Math.round(target / 40));
+          const units = Math.ceil(target / price);
+          return { line: fmtMoney(price) + "/mo × " + units + " accounts" };
+        }
+        case "education": {
+          const price = Math.max(199, Math.round(target / 4));
+          const units = Math.ceil(target / price);
+          return { line: fmtMoney(price) + " per seat × " + units + " seats / month" };
+        }
+        case "product": {
+          const aov = Math.max(35, Math.round(target / 80));
+          const orders = Math.ceil(target / aov);
+          return { line: fmtMoney(aov) + " AOV × " + orders + " orders / month" };
+        }
+        case "local": {
+          const ticket = Math.max(50, Math.round(target / 60));
+          const visits = Math.ceil(target / ticket);
+          return { line: fmtMoney(ticket) + " avg ticket × " + visits + " visits / month" };
+        }
+        default: {
+          const project = Math.max(2000, Math.round(target / 2));
+          const projects = Math.ceil(target / project);
+          return { line: fmtMoney(project) + " per project × " + projects + " project" + (projects > 1 ? "s" : "") + " / month" };
+        }
+      }
+    }
+
+    function offerFor(cat, idea) {
+      const topic = (idea || "your topic").trim().replace(/^(a |an |the )/i, "").toLowerCase();
+      switch (cat) {
+        case "content": return { name: "Paid newsletter: first three issues free", body: "Three deeply-researched issues on " + topic + ", free as a sample, then paid forever after." };
+        case "saas": return { name: "Founding-member tier: lifetime price", body: "Five paid pilots at half-price in exchange for testimonials and one feature you build with them." };
+        case "education": return { name: "First cohort: small, intense, recorded", body: "Ten seats, five live sessions, recorded for the next cohort. Charge for the experience, not the content." };
+        case "product": return { name: "Founding edition: limited run", body: "Make 50. Sell 50. Use the proceeds to fund the next 200." };
+        case "local": return { name: "Soft-open package", body: "Ten anchor customers at $1 below the eventual price, locked for life. Each brings five friends." };
+        default: return { name: "Productized starter: one fixed scope, one fixed price", body: "A two-week, fixed-price engagement that solves one specific pain. Easy to sell, easy to deliver, easy to get a referral from." };
+      }
+    }
+
+    function channelFor(cat) {
+      switch (cat) {
+        case "content": return ["Two threads per week on the platform your readers already live on (X, LinkedIn, or TikTok).", "Convert every reply into a 1-on-1 DM. Ask what they'd pay to read.", "Guest-post on three publications with overlapping audiences; trade for a backlink and an intro."];
+        case "saas": return ["Ten cold emails per day to ideal-fit founders. Personal, short, with a Loom.", "Build in public on X / IndieHackers. Every shipped feature is a content post.", "Reserve Product Hunt for after your 30th paying customer, not before."];
+        case "education": return ["Free 60-minute workshop, weekly. The email list is the asset.", "Pre-sell the first cohort to that list before recording a single video.", "Ask every student to bring two friends to the next workshop."];
+        case "product": return ["Friends-and-family launch: 20 people, 20 honest reviews.", "Two TikToks and one Reel per day. The format is unfair on the upside.", "Email five micro-influencers in your niche. Send the product, no strings."];
+        case "local": return ["Walk in. Hand-deliver flyers to the 200 households / 50 businesses closest to you.", "Partner with three nearby businesses for cross-promo (their customers, your customers).", "Google Business profile + one review per customer for the first 60 days."];
+        default: return ["Five personal pitches per day to people whose work you've followed.", "Two case-study LinkedIn posts a week. Show the work, not the credentials.", "Ask every closed client for two intros before the engagement ends."];
+      }
+    }
+
+    function startupCostFor(cat) {
+      switch (cat) {
+        case "content": return { total: 320, items: ["Domain & email hosting: $80/yr", "Newsletter platform (Beehiiv/Substack free tier): $0", "Stock illustrations / branding kit: $200", "Fido annual ($20/mo): $240", "LLC + EIN: free with Fido"] };
+        case "saas": return { total: 900, items: ["Domain: $20/yr", "Hosting (Render/Fly/Vercel): $20–80/mo", "Stripe + Stripe Tax: $0 fixed, % of revenue", "Auth (Clerk/Auth0 free tier): $0", "Six-month runway buffer: $500", "LLC + EIN: free with Fido"] };
+        case "education": return { total: 600, items: ["Course platform (Maven / Podia / Circle): $39–99/mo", "Webinar tool (Zoom / Riverside): $20/mo", "Initial paid ads to fill the first workshop: $300", "Landing page: included with Fido", "LLC + EIN: free with Fido"] };
+        case "product": return { total: 2200, items: ["First production run (~50 units): $1,200", "Photography & branding: $400", "Shopify / Etsy + payment fees: $40/mo", "Initial ad spend: $400", "Sales-tax permit + LLC + EIN: free with Fido"] };
+        case "local": return { total: 3500, items: ["Permits & inspections: $200–800 (varies by city)", "General liability insurance: ~$50/mo", "Equipment / first-month inventory: $1,500", "Signage + flyers: $400", "LLC + EIN + business bank: free with Fido"] };
+        default: return { total: 350, items: ["Domain & professional email: $80/yr", "Scheduling (Cal.com free tier): $0", "Contract template + invoicing: included with Fido", "LinkedIn Premium (one month for outreach): $30", "First-month reserve: $200", "LLC + EIN: free with Fido"] };
+      }
+    }
+
+    function legalFor(cat, location) {
+      const loc = escapeHtml((location || "").trim() || "your state");
+      const items = [
+        "Form an LLC in <strong>" + loc + "</strong> (Fido files for free with annual sign-up)",
+        "Apply for an EIN with the IRS: free, ten minutes online",
+        "Open a business checking account, separate from personal",
+        "Operating agreement: Fido provides a one-page template",
+        "Set up Stripe / a payment processor under the LLC's EIN"
+      ];
+      if (cat === "product" || cat === "local") items.push("Register for a sales-tax permit in " + loc + " (Fido handles)");
+      if (cat === "saas" || cat === "education" || cat === "service" || cat === "content") items.push("Publish a Terms of Service + Privacy Policy on the site");
+      if (cat === "local") items.push("Confirm zoning, fire-marshal, and any health-code requirements with your city");
+      items.push("Mark federal quarterly tax dates: Apr 15 · Jun 15 · Sep 15 · Jan 15");
+      return items;
+    }
+
+    function fundingFor(totalCost) {
+      return [
+        { stage: "Stage 1 · Bootstrap", body: "Cover the " + fmtMoney(totalCost) + " setup from savings or your day-job income. No outside money until you've made a sale with your own hands." },
+        { stage: "Stage 2 · Revenue funded", body: "Reinvest 100% of the first three months' profit. This is when the second hire, or the second SKU, or the second cohort, happens." },
+        { stage: "Stage 3 · Capital", body: "Once revenue is predictable, Fido routes one application across 100 lenders: SBA, line-of-credit, revenue-based financing, niche grants. You compare and pick." }
+      ];
+    }
+
+    function milestonesFor(hours, target) {
+      const slow = hours < 10;
+      const m = [
+        ["Week 1", "Write the offer in one sentence. Show it to five people. Iterate."],
+        ["Week 2", "Set up the LLC + EIN with Fido. Open the business bank account."],
+        ["Week 3", "Build the smallest sellable thing: a landing page, a sample, a demo."],
+        ["Week 4", "Talk to ten potential customers. No pitching. Listen. Edit the offer."],
+        ["Week 5", "Pre-sell to three. Take the money. Now you have a real deadline."],
+        ["Week 6", "Deliver your first three. Get a quote and a referral from each."],
+        ["Week 7", "Raise the price 20%. Sell three more at the new price."],
+        ["Week 8", "Pick one customer channel and go deep. Cancel the other two."],
+        ["Week 9", "Hit half of " + fmtMoney(target) + ". Track the gap to full target."],
+        ["Week 10", "Build the first repeatable workflow: checklist, template, automation."],
+        ["Week 11", "Hit " + fmtMoney(target) + "/mo for the first time."],
+        ["Week 12", "Two consecutive months at target. The gates unlock. See below."]
+      ];
+      if (slow) {
+        m[2][1] = "Build the smallest sellable thing in two weekends: landing page or a sample.";
+        m[10][1] = "Hit 70% of " + fmtMoney(target) + ". Full target likely lands in month four at this pace.";
+        m[11][1] = "First $1 of recurring revenue. Then compound.";
+      }
+      return m;
+    }
+
+    function gatesFor(target) {
+      const reserve = target * 3;
+      return [
+        "<strong>Three months of personal expenses</strong> in a separate savings account. Yours, not the business's. Roughly " + fmtMoney(reserve) + ".",
+        "<strong>Two consecutive months</strong> at or above " + fmtMoney(target) + " in revenue, with the same kind of customer. One lucky month is not the gate.",
+        "<strong>A named pipeline</strong> covering at least 60 days of forward revenue, with a specific reason each prospect will buy. Hope is not a pipeline."
+      ];
+    }
+
+    function buildPlan(inputs) {
+      const cat = categorize(inputs.idea);
+      const target = Math.max(500, parseInt(inputs.income, 10) || 5000);
+      const hours = Math.max(1, parseInt(inputs.hours, 10) || 10);
+      const cost = startupCostFor(cat);
+      return {
+        idea: inputs.idea || "your business",
+        situation: inputs.situation || "full-time",
+        target, hours, cat,
+        location: inputs.location || "your state",
+        competitor: inputs.competitor || "",
+        pricing: pricingFor(cat, target),
+        offer: offerFor(cat, inputs.idea),
+        channel: channelFor(cat),
+        cost,
+        legal: legalFor(cat, inputs.location),
+        funding: fundingFor(cost.total),
+        milestones: milestonesFor(hours, target),
+        gates: gatesFor(target)
+      };
+    }
+
+    function renderPlan(p) {
+      const date = new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+      const sit = { "full-time": "Currently full-time", "part-time": "Freelancing on the side", "between": "Between roles", "started": "Already started" }[p.situation] || "";
+      const stages = [
+        { head: "Days 1–30 · VALIDATE", h: "Sharpen the offer.", b: "One-sentence pitch. Ten conversations. Three pre-sales. The goal is brutal honesty about whether anyone wants this." },
+        { head: "Days 31–60 · LAUNCH", h: "Sell something real.", b: "Deliver your first batch. Iterate on the offer with the first money in your account. Pick one channel; starve the others." },
+        { head: "Days 61–90 · REPLACE", h: "Hit the income target.", b: "Two months at " + fmtMoney(p.target) + " and a real pipeline. The gates open. The next chapter starts." }
+      ];
+
+      return `
+        <div class="plan-doc" id="planDoc">
+          <div class="plan-masthead">
+            <h2 class="title">The <em>SWFTM</em> Escape Plan<br><span style="font-style:italic;color:var(--ink-soft);font-size:0.55em;">${escapeHtml(p.idea)}</span></h2>
+            <div class="meta">SWFTM™ &nbsp;·&nbsp; Vol. 1<br>${escapeHtml(date)}<br>${escapeHtml(sit)} &nbsp;·&nbsp; ${p.hours} hr / wk &nbsp;·&nbsp; ${fmtMoney(p.target)}/mo target</div>
+          </div>
+
+          <div class="plan-section">
+            <h3>The premise</h3>
+            <div class="body">
+              ${p._premise
+                ? `<p>${escapeHtml(p._premise)}</p>`
+                : `<p>You're building <strong>${escapeHtml(p.idea)}</strong> from ${escapeHtml(p.location)}, ${p.hours} hours a week, with a target of <strong>${fmtMoney(p.target)}/month</strong>. The math is <strong>${escapeHtml(p.pricing.line)}</strong>. Everything below is reverse-engineered from that number.</p>
+                  ${p.competitor ? `<p style="font-style:italic;color:var(--ink-soft);">Watching <strong>${escapeHtml(p.competitor)}</strong>: study their pricing, their first 100 customers, their last three pivots. Copy what's right. Improve what's lazy.</p>` : ""}`}
+            </div>
+          </div>
+
+          <div class="plan-section">
+            <h3>The first offer</h3>
+            <div class="body">
+              <p><strong>${escapeHtml(p.offer.name)}</strong></p>
+              <p>${escapeHtml(p.offer.body)}</p>
+              <p style="font-style:italic;color:var(--ink-soft);">Math: ${escapeHtml(p.pricing.line)} → ${fmtMoney(p.target)} / month.</p>
+            </div>
+          </div>
+
+          <div class="plan-section">
+            <h3>Customer channel zero</h3>
+            <div class="body">
+              <ul>${p.channel.map(c => `<li>${escapeHtml(c)}</li>`).join("")}</ul>
+            </div>
+          </div>
+
+          <div class="plan-section">
+            <h3>Startup cost</h3>
+            <div class="body">
+              <p>Plan on roughly <strong>${fmtMoney(p.cost.total)}</strong> to first revenue.</p>
+              <ul>${p.cost.items.map(i => `<li>${escapeHtml(i)}</li>`).join("")}</ul>
+            </div>
+          </div>
+
+          <div class="plan-section">
+            <h3>Legal setup</h3>
+            <div class="body">
+              <ul>${p.legal.map(l => `<li>${l}</li>`).join("")}</ul>
+            </div>
+          </div>
+
+          <div class="plan-section">
+            <h3>Funding path</h3>
+            <div class="body">
+              ${p.funding.map(f => `<p><strong>${escapeHtml(f.stage)}.</strong> ${escapeHtml(f.body)}</p>`).join("")}
+            </div>
+          </div>
+
+          <div class="plan-section">
+            <h3>The 30 / 60 / 90</h3>
+            <div class="body">
+              <div class="plan-stages">
+                ${stages.map(s => `
+                  <div class="plan-stage">
+                    <div class="stage-head">${escapeHtml(s.head)}</div>
+                    <h4>${escapeHtml(s.h)}</h4>
+                    <p>${escapeHtml(s.b)}</p>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-section">
+            <h3>Twelve weeks</h3>
+            <div class="body">
+              <div class="plan-weeks">
+                ${p.milestones.map(m => `<div class="week"><div class="label">${escapeHtml(m[0])}</div><div class="what">${escapeHtml(m[1])}</div></div>`).join("")}
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-section">
+            <h3>Do not quit yet</h3>
+            <div class="body">
+              <p>Three gates. All three must be true on the same week before you give your two weeks' notice.</p>
+              <div class="plan-gates">
+                ${p.gates.map((g, i) => `<div class="plan-gate"><div class="num">${i + 1}</div><div class="text">${g}</div></div>`).join("")}
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-footer">
+            <div class="toolset">
+              <button type="button" class="plan-tool" id="planCopy">Copy plan</button>
+              <button type="button" class="plan-tool" id="planShare">Copy share link</button>
+              <button type="button" class="plan-tool" id="planPrint">Print / save PDF</button>
+            </div>
+            <div class="next-step">
+              Ready when you are. <a href="https://fidofinancial.ai/login?mode=signup" target="_blank" rel="noopener">Let Fido file your LLC, free →</a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function planAsText(p) {
+      const date = new Date().toLocaleDateString();
+      const sit = { "full-time": "currently full-time", "part-time": "freelancing on the side", "between": "between roles", "started": "already started" }[p.situation] || "";
+      const stripTags = (s) => String(s).replace(/<[^>]+>/g, "");
+      let out = "THE SWFTM ESCAPE PLAN\n";
+      out += p.idea + " · " + date + "\n";
+      out += sit + " · " + p.hours + " hrs/wk · " + fmtMoney(p.target) + "/mo target · " + p.location + "\n\n";
+      out += "FIRST OFFER\n" + p.offer.name + "\n" + p.offer.body + "\nMath: " + p.pricing.line + "\n\n";
+      out += "CUSTOMER CHANNEL ZERO\n" + p.channel.map(c => "- " + c).join("\n") + "\n\n";
+      out += "STARTUP COST: ~" + fmtMoney(p.cost.total) + "\n" + p.cost.items.map(c => "- " + c).join("\n") + "\n\n";
+      out += "LEGAL SETUP\n" + p.legal.map(l => "- " + stripTags(l)).join("\n") + "\n\n";
+      out += "FUNDING\n" + p.funding.map(f => f.stage + ": " + f.body).join("\n\n") + "\n\n";
+      out += "30 / 60 / 90\nDays 1–30: validate the offer.\nDays 31–60: launch and sell.\nDays 61–90: hit " + fmtMoney(p.target) + "/mo and build a pipeline.\n\n";
+      out += "TWELVE WEEKS\n" + p.milestones.map(m => m[0] + ": " + m[1]).join("\n") + "\n\n";
+      out += "DO NOT QUIT YET: Gates\n" + p.gates.map((g, i) => (i + 1) + ". " + stripTags(g)).join("\n") + "\n\n";
+      out += "Built with SWFTM by Fido Financial · fidofinancial.ai\n";
+      return out;
+    }
+
+    function readForm() {
+      const numberOrNull = (value) => {
+        const n = Number(String(value || "").replace(/,/g, ""));
+        return Number.isFinite(n) ? n : null;
+      };
+      return {
+        fullName: form.elements["fullName"].value.trim(),
+        email: form.elements["email"].value.trim(),
+        businessName: form.elements["businessName"].value.trim(),
+        industry: form.elements["industry"].value.trim(),
+        idea: form.elements["idea"].value.trim(),
+        situation: form.elements["situation"].value,
+        location: form.elements["location"].value.trim(),
+        targetMonthlyIncome: numberOrNull(form.elements["income"].value),
+        weeklyHours: numberOrNull(form.elements["hours"].value),
+        monthlyPersonalExpenses: numberOrNull(form.elements["expenses"].value),
+        savingsRunwayMonths: numberOrNull(form.elements["runway"].value),
+        targetLaunchDate: form.elements["launchDate"].value.trim(),
+        competitor: form.elements["competitor"].value.trim(),
+        audienceAccess: form.elements["audience"].value.trim(),
+        biggestConstraint: form.elements["constraint"].value.trim()
+      };
+    }
+
+    function validateIntake(inputs) {
+      if (!inputs.fullName) return "Add your name.";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputs.email)) return "Add a valid email.";
+      if (!inputs.idea || inputs.idea.length < 3) return "Add the business idea.";
+      if (!inputs.location) return "Add your location.";
+      if (!inputs.targetMonthlyIncome || inputs.targetMonthlyIncome < 500) return "Target monthly income must be at least $500.";
+      if (!inputs.weeklyHours || inputs.weeklyHours < 1 || inputs.weeklyHours > 80) return "Hours per week must be between 1 and 80.";
+      return "";
+    }
+
+    function getEscapePlanApiUrl() {
+      const storageValue = window.localStorage ? window.localStorage.getItem("SWFTM_ESCAPE_PLAN_API_URL") : "";
+      const configuredValue = window.SWFTM_CONFIG && window.SWFTM_CONFIG.escapePlanApiUrl;
+      return String(storageValue || configuredValue || "https://api.fidofinancial.ai/escape-plan").replace(/\/$/, "");
+    }
+
+    async function createEscapePlanIntent(inputs, timeoutMs) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), timeoutMs || 45000);
+      const apiUrl = getEscapePlanApiUrl();
+      const payload = {
+        email: inputs.email,
+        fullName: inputs.fullName,
+        businessName: inputs.businessName || null,
+        idea: inputs.idea,
+        situation: inputs.situation,
+        location: inputs.location,
+        industry: inputs.industry || null,
+        targetMonthlyIncome: Math.round(inputs.targetMonthlyIncome),
+        weeklyHours: Math.round(inputs.weeklyHours),
+        competitor: inputs.competitor || null,
+        monthlyPersonalExpenses: inputs.monthlyPersonalExpenses === null ? null : Math.round(inputs.monthlyPersonalExpenses),
+        savingsRunwayMonths: inputs.savingsRunwayMonths,
+        targetLaunchDate: inputs.targetLaunchDate || null,
+        audienceAccess: inputs.audienceAccess || null,
+        biggestConstraint: inputs.biggestConstraint || null
+      };
+      try {
+        const res = await fetch(apiUrl + "/intents", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          signal: ctrl.signal
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || "Unable to save intake");
+        if (!json || !json.claimUrl) throw new Error("Fido did not return a claim link");
+        return json;
+      } finally {
+        clearTimeout(t);
+      }
+    }
+
+    function mergePlan(inputs, apiPlan) {
+      const target = Math.max(500, parseInt(inputs.income, 10) || 5000);
+      const hours = Math.max(1, parseInt(inputs.hours, 10) || 10);
+      return {
+        idea: inputs.idea || "your business",
+        situation: inputs.situation || "full-time",
+        target, hours,
+        location: inputs.location || "your state",
+        competitor: inputs.competitor || "",
+        cat: "service",
+        pricing: { line: apiPlan.pricing_line || "" },
+        offer: apiPlan.first_offer || { name: "", body: "" },
+        channel: Array.isArray(apiPlan.channel) ? apiPlan.channel : [],
+        cost: {
+          total: (apiPlan.startup_cost && apiPlan.startup_cost.total) || 0,
+          items: (apiPlan.startup_cost && apiPlan.startup_cost.items) || []
+        },
+        legal: Array.isArray(apiPlan.legal) ? apiPlan.legal : [],
+        funding: Array.isArray(apiPlan.funding) ? apiPlan.funding : [],
+        milestones: Array.isArray(apiPlan.milestones)
+          ? apiPlan.milestones.map(m => [m.label, m.what])
+          : [],
+        gates: Array.isArray(apiPlan.gates) ? apiPlan.gates : [],
+        _premise: apiPlan.premise || ""
+      };
+    }
+
+    function showLoading() {
+      output.innerHTML = `
+        <div class="plan-loading">
+          Saving your intake and opening Fido
+          <span class="pulse"><span></span><span></span><span></span></span>
+        </div>`;
+      output.hidden = false;
+      setTimeout(() => output.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+    }
+
+    function showMessage(kind, message) {
+      output.innerHTML = `<div class="${kind === "error" ? "plan-error" : "plan-status"}">${escapeHtml(message)}</div>`;
+      output.hidden = false;
+      setTimeout(() => output.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+    }
+
+    function wirePlanButtons(plan, inputs) {
+      const copyBtn = document.getElementById("planCopy");
+      const shareBtn = document.getElementById("planShare");
+      const printBtn = document.getElementById("planPrint");
+      function flash(btn, label) {
+        const orig = btn.textContent;
+        btn.classList.add("copied");
+        btn.textContent = label;
+        setTimeout(() => { btn.classList.remove("copied"); btn.textContent = orig; }, 1800);
+      }
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(planAsText(plan)).then(() => flash(copyBtn, "✓ Copied"));
+      });
+      shareBtn.addEventListener("click", () => {
+        const params = new URLSearchParams();
+        Object.entries(inputs).forEach(([k, v]) => { if (v) params.set(k, v); });
+        const url = location.origin + location.pathname + "?" + params.toString() + "#tab=plan";
+        navigator.clipboard.writeText(url).then(() => flash(shareBtn, "✓ Link copied"));
+      });
+      printBtn.addEventListener("click", () => window.print());
+    }
+
+    async function generate(inputs) {
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const validationError = validateIntake(inputs);
+      if (validationError) {
+        showMessage("error", validationError);
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
+      showLoading();
+      try {
+        const intent = await createEscapePlanIntent(inputs);
+        showMessage("status", "Saved. Redirecting you to Fido to create your account and generate the PDF.");
+        window.location.assign(intent.claimUrl);
+      } catch (err) {
+        showMessage("error", err && err.message ? err.message : "Unable to save your intake. Please try again.");
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    }
+
+    form.addEventListener("submit", (e) => { e.preventDefault(); generate(readForm()); });
+
+    if (exampleBtn) {
+      exampleBtn.addEventListener("click", () => {
+        form.elements["fullName"].value = "Jane Smith";
+        form.elements["email"].value = "jane@example.com";
+        form.elements["businessName"].value = "Northstar CFO";
+        form.elements["industry"].value = "Financial services";
+        form.elements["idea"].value = "A fractional CFO service for indie SaaS founders";
+        form.elements["situation"].value = "full_time";
+        form.elements["location"].value = "Austin, TX";
+        form.elements["income"].value = "9000";
+        form.elements["hours"].value = "15";
+        form.elements["expenses"].value = "4500";
+        form.elements["runway"].value = "3";
+        form.elements["launchDate"].value = "September 2026";
+        form.elements["competitor"].value = "founderspath.com";
+        form.elements["audience"].value = "Former clients, LinkedIn founders, and local SaaS meetups.";
+        form.elements["constraint"].value = "Need first three paying clients before leaving full-time work.";
+        showMessage("status", "Example loaded. Submit when you want to hand this to Fido.");
+      });
+    }
+
+    // Hydrate from URL params
+    const urlParams = new URLSearchParams(location.search);
+    if (urlParams.has("idea") || urlParams.has("income") || urlParams.has("email")) {
+      ["fullName", "email", "businessName", "industry", "idea", "situation", "location", "income", "hours", "expenses", "runway", "launchDate", "competitor", "audience", "constraint"].forEach(k => {
+        if (urlParams.has(k)) form.elements[k].value = urlParams.get(k);
+      });
+      activateTab("plan");
+    }
+  })();
+
+  // Tab deeplink (#tab=plan)
+  (function () {
+    const m = (location.hash || "").match(/tab=([a-z]+)/i);
+    if (m && document.querySelector('.tab[data-tab="' + m[1] + '"]')) activateTab(m[1]);
+  })();
+</script>
+
+</body>
+</html>
