@@ -1344,7 +1344,7 @@
     function getEscapePlanApiUrl() {
       const storageValue = window.localStorage ? window.localStorage.getItem("SWFTM_ESCAPE_PLAN_API_URL") : "";
       const configuredValue = window.SWFTM_CONFIG && window.SWFTM_CONFIG.escapePlanApiUrl;
-      return String(storageValue || configuredValue || "https://api.fidofinancial.ai/escape-plan").replace(/\/$/, "");
+      return String(storageValue || configuredValue || "https://fidofinancial.ai/escape-plan").replace(/\/$/, "");
     }
 
     async function createEscapePlanIntent(inputs, timeoutMs) {
