@@ -10,10 +10,10 @@ GitHub Pages requires this repository to be public unless the organization plan 
 npm run dev
 ```
 
-For GitHub Pages production, update `config.js` if the Fido API domain changes. The default expected production endpoint is:
+For GitHub Pages production, update `config.js` if the Fido API domain changes. The current production endpoint is the Fido production App API router:
 
 ```txt
-https://api.fidofinancial.ai/escape-plan
+https://d3mkgyj65rbrga.cloudfront.net/escape-plan
 ```
 
 For local testing against a non-production Fido API, override the browser config in the console:
