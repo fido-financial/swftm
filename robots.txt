@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://swftm.fidohq.ai/sitemap.xml
